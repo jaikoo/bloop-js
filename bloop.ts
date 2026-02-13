@@ -46,6 +46,7 @@ export class BloopClient {
   private timer: ReturnType<typeof setInterval> | null = null;
   private signingKey: CryptoKey | null = null;
   private keyReady: Promise<void>;
+  private globalHandlersInstalled = false;
 
   constructor(config: BloopConfig) {
     this.config = {
@@ -71,6 +72,53 @@ export class BloopClient {
       false,
       ["sign"]
     );
+  }
+
+  /**
+   * Install global error handlers for uncaught exceptions and unhandled rejections.
+   * Detects runtime (Node.js vs browser) and installs appropriate handlers.
+   * Uses addEventListener (not assignment) to avoid clobbering existing handlers.
+   */
+  installGlobalHandlers(): void {
+    if (this.globalHandlersInstalled) return;
+    this.globalHandlersInstalled = true;
+
+    const isNode =
+      typeof globalThis !== "undefined" &&
+      typeof (globalThis as any).process?.on === "function";
+
+    if (isNode) {
+      const proc = (globalThis as any).process;
+      proc.on("uncaughtException", (error: Error) => {
+        this.captureError(error, {
+          metadata: { unhandled: true, mechanism: "uncaughtException" },
+        });
+        this.flush();
+      });
+      proc.on("unhandledRejection", (reason: unknown) => {
+        const error =
+          reason instanceof Error ? reason : new Error(String(reason));
+        this.captureError(error, {
+          metadata: { unhandled: true, mechanism: "unhandledRejection" },
+        });
+      });
+    } else if (typeof globalThis !== "undefined" && typeof (globalThis as any).addEventListener === "function") {
+      (globalThis as any).addEventListener("error", (event: any) => {
+        const error = event.error instanceof Error ? event.error : new Error(event.message || "Unknown error");
+        this.captureError(error, {
+          metadata: { unhandled: true, mechanism: "onerror" },
+        });
+      });
+      (globalThis as any).addEventListener("unhandledrejection", (event: any) => {
+        const error =
+          event.reason instanceof Error
+            ? event.reason
+            : new Error(String(event.reason));
+        this.captureError(error, {
+          metadata: { unhandled: true, mechanism: "onunhandledrejection" },
+        });
+      });
+    }
   }
 
   /** Capture an Error object. */
@@ -203,6 +251,9 @@ class HttpError extends Error {
 //   environment: "production",
 //   release: "1.0.0",
 // });
+//
+// // Install global handlers (Node.js or browser)
+// client.installGlobalHandlers();
 //
 // // Capture errors
 // client.captureError(new Error("something broke"), { route: "/api/users" });
