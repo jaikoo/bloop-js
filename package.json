@@ -1,5 +1,5 @@
 {
-  "name": "@bloop/sdk",
+  "name": "bloop-sdk",
   "version": "0.2.0",
   "description": "Lightweight error reporting SDK for bloop",
   "main": "dist/bloop.js",
@@ -11,6 +11,10 @@
   },
   "keywords": ["error-tracking", "observability", "bloop"],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaikoo/bloop-js"
+  },
   "devDependencies": {
     "typescript": "^5.0.0"
   }
