@@ -1,0 +1,17 @@
+{
+  "name": "@bloop/sdk",
+  "version": "0.2.0",
+  "description": "Lightweight error reporting SDK for bloop",
+  "main": "dist/bloop.js",
+  "types": "dist/bloop.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["error-tracking", "observability", "bloop"],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
