@@ -9,5 +9,5 @@
     "esModuleInterop": true,
     "lib": ["ES2020", "DOM"]
   },
-  "include": ["bloop.ts"]
+  "include": ["bloop.ts", "test-tracing.ts", "test-auto-instrument.ts"]
 }

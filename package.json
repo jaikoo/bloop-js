@@ -1,7 +1,7 @@
 {
   "name": "bloop-sdk",
-  "version": "0.2.0",
-  "description": "Lightweight error reporting SDK for bloop",
+  "version": "0.3.0",
+  "description": "Lightweight error reporting and LLM tracing SDK for bloop",
   "main": "dist/bloop.js",
   "types": "dist/bloop.d.ts",
   "files": ["dist"],
@@ -9,7 +9,7 @@
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["error-tracking", "observability", "bloop"],
+  "keywords": ["error-tracking", "observability", "llm-tracing", "bloop"],
   "license": "MIT",
   "repository": {
     "type": "git",
