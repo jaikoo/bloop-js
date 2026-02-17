@@ -5,9 +5,10 @@
     "moduleResolution": "bundler",
     "declaration": true,
     "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "lib": ["ES2020", "DOM"]
   },
-  "include": ["bloop.ts", "test-tracing.ts", "test-auto-instrument.ts"]
+  "include": ["src"]
 }

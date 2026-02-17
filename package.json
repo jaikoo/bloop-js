@@ -1,21 +1,57 @@
 {
-  "name": "bloop-sdk",
-  "version": "0.3.0",
-  "description": "Lightweight error reporting and LLM tracing SDK for bloop",
-  "main": "dist/bloop.js",
-  "types": "dist/bloop.d.ts",
-  "files": ["dist"],
+  "name": "@dthink/bloop-sdk",
+  "version": "0.5.2",
+  "description": "Bloop error reporting and LLM tracing SDK for TypeScript/Node.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./integrations": {
+      "import": "./dist/integrations/index.js",
+      "types": "./dist/integrations/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "node --test tests/"
   },
-  "keywords": ["error-tracking", "observability", "llm-tracing", "bloop"],
+  "keywords": [
+    "bloop",
+    "error-tracking",
+    "llm",
+    "tracing",
+    "observability"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaikoo/bloop-js"
+    "url": "git+https://github.com/jaikoo/bloop-js.git"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "devDependencies": {
+    "@types/node": "^25.2.3",
     "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@anthropic-ai/sdk": ">=0.20.0",
+    "openai": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "openai": {
+      "optional": true
+    },
+    "@anthropic-ai/sdk": {
+      "optional": true
+    }
   }
 }
